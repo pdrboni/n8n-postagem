@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Autorização - n8n-postagem</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 680px; margin: 3rem auto; padding: 0 1rem; line-height: 1.6; color: #222; }
+  </style>
+</head>
+<body>
+  <h1>Autorização concluída</h1>
+  <p id="msg">Redirecionando para o aplicativo...</p>
+  <p><a id="manual" href="#" hidden>Se nada acontecer, clique aqui.</a></p>
+
+  <script>
+    // Destino local, onde o n8n escuta no computador do dono do app.
+    // Use o endereço de PRODUÇÃO do nó Webhook (/webhook/...) com o workflow ativo,
+    // ou o de TESTE (/webhook-test/...) enquanto estiver testando.
+    var DESTINO = "http://localhost:5678/webhook/tiktok-callback";
+    // var DESTINO = "http://localhost:5678/webhook-test/tiktok-callback";
+
+    var params = window.location.search;
+    var msg = document.getElementById("msg");
+    var manual = document.getElementById("manual");
+
+    if (!params) {
+      msg.textContent = "Nenhum parâmetro de autorização recebido.";
+    } else {
+      var url = DESTINO + params;
+      manual.href = url;
+      manual.hidden = false;
+      window.location.replace(url);
+    }
+  </script>
+</body>
+</html>
